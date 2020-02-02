@@ -1,24 +1,24 @@
-from django.db import models
-
-# Create your models here.
-from django.db import models
-from cic_network.cicn_courses.models import Cohort, Teacher, Participant
-from cic_network.cicn_users.models import User
-import functools
+# Python Tools
 import statistics
-from cic_network.utils import DictionaryField
-from cic_network.cicn_polls.procesing.nlp import Processor
+import functools
 
+# Django Tools
+from django.db import models
+
+# Local Tools
+from .utils import DictionaryField
 from .managers import ResponseManager
-
-from cic_network.cicn_polls.procesing.serializing import (
+from .procesing.nlp import Processor
+from .procesing.serializing import (
     calculateAge, 
     frecuency_dist, 
     frecuency_dist_ages as frecuency_dist_respnses, 
     process_responses,
     distributed_responses
+
     )
 
+from accounts.models import User
 
 
 
@@ -32,7 +32,7 @@ class Response(models.Model):
         on_delete=models.CASCADE,
         related_name='responses')
 
-    participant = models.ForeignKey(User,
+    participant = models.ForeignKey('accounts.User',
         null=True,
         on_delete=models.CASCADE,
         related_name='responses')
@@ -166,14 +166,10 @@ class Poll(models.Model):
     name = models.CharField(
         max_length=100, 
         default="", blank=True)
-    cohort = models.ForeignKey(Cohort, 
-        on_delete=models.CASCADE, 
-        related_name='polls')
-    teachers = models.ManyToManyField(Teacher)
     questions = models.ManyToManyField('Question', 
         related_name="polls")
 
-    participants = models.ManyToManyField('cicn_users.User', 
+    participants = models.ManyToManyField('accounts.User', 
         related_name='polls', 
         through='Response')
 

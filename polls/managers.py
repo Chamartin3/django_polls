@@ -1,11 +1,15 @@
 
-from django.db import models
-
-from cic_network.cicn_polls.procesing.serializing  import  frecuency_dist_ages
+# Python Modules
 import statistics
-from django.db.models import F, ExpressionWrapper, fields
-from cic_network.utils import DurationinYearsField
 from datetime import timedelta
+
+# Dajgno Modules
+from django.db import models
+from django.db.models import F, ExpressionWrapper, fields
+
+# Local Tools
+from polls.utils import DurationinYearsField
+from polls.serializing  import  frecuency_dist_ages
 
 def compute_age(dic):
     bd = dic['participant__profile__birth_date']
