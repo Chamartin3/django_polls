@@ -184,11 +184,6 @@ class Poll(models.Model):
     def __str__(self):
         return f'{self.cohort.name}'
 
-    # def save(self, *args, **kwargs):
-    #     import pdb; pdb.set_trace()
-    #     super(Poll, self).save(*args, **kwargs)
-    #     self.create_empty_responses()
-
     def close(self):
         self.open = False
         self._empty_responses.delete()
